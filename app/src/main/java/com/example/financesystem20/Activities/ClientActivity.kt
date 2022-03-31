@@ -55,7 +55,8 @@ class ClientActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, view, position: Int, id: Long ->
 
             val newActivityIntent = Intent(this, BankAccountActivity::class.java)
-            newActivityIntent.putExtra(ACCOUNT_SELECTED,bankAccountsListOfClient[position].id.toString())
+            newActivityIntent.putExtra(ACCOUNT_ID_SELECTED,bankAccountsListOfClient[position].id.toString())
+            newActivityIntent.putExtra(ACCOUNT_IDBA_SELECTED,bankAccountsListOfClient[position].idOfAccount)
             startActivity(newActivityIntent)
         }
 
@@ -81,7 +82,8 @@ class ClientActivity : AppCompatActivity() {
         bankAccountsDBManager.closeDB()
     }
     companion object{
-        const val ACCOUNT_SELECTED="selected_account"
+        const val ACCOUNT_ID_SELECTED="id"
+        const val ACCOUNT_IDBA_SELECTED="id of bankAccount"
     }
 
 }

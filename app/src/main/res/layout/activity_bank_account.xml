@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Activities.BankAccountActivity">
 
+    <EditText
+        android:id="@+id/sum_of_transfer_edit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:hint="Sum"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/transfer_button"
+        app:layout_constraintTop_toTopOf="@+id/transfer_button"></EditText>
+
     <TextView
         android:id="@+id/account_info_tv"
         android:layout_width="0dp"
@@ -26,7 +39,7 @@
     <Button
         android:id="@+id/transfer_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:text="Button"
@@ -39,23 +52,27 @@
         tools:text="Transfer" />
 
     <EditText
+        android:id="@+id/id_of_receiver_edit"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
+        android:hint="Receiver"
+        app:layout_constraintBottom_toBottomOf="@+id/sum_of_transfer_edit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.521"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/transfer_button"
-        app:layout_constraintTop_toBottomOf="@+id/account_info_tv">
-    </EditText>
+        app:layout_constraintTop_toBottomOf="@+id/account_info_tv"
+        app:layout_constraintVertical_bias="0.022"></EditText>
 
     <Button
         android:id="@+id/delete_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Delete"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/transfer_button"
-        tools:layout_editor_absoluteY="222dp" />
+        app:layout_constraintTop_toBottomOf="@+id/id_of_receiver_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>

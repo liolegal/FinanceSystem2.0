@@ -5,8 +5,14 @@ data class BankAccount(
         val bank:String,
         val login:String,
         val idOfAccount:String,
-        val countOfMoney:Float,
+        var countOfMoney:Float,
         val id: Int = 0
 ) {
+        fun putMoney(sum:Float){
+                countOfMoney+=sum
+        }
+        fun takeMoney(sum:Float){
+                countOfMoney-=sum
+        }
 
 }

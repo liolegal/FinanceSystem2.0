@@ -38,6 +38,17 @@ class BankAccountsDBManager(context: Context){
         db?.delete(BankAccountNameClass.TABLE_NAME,selection,null)
     }
 
+    fun updateItem(bankAccount:BankAccount,id:String){
+        val selection=BaseColumns._ID +"=$id"
+        val values = ContentValues().apply {
+            put(BankAccountNameClass.COLUMN_NAME_BANK, bankAccount.bank)
+            put(BankAccountNameClass.COLUMN_NAME_LOGIN, bankAccount.login)
+            put(BankAccountNameClass.COLUMN_NAME_IDBA, bankAccount.idOfAccount)
+            put(BankAccountNameClass.COLUMN_NAME_MONEY, bankAccount.countOfMoney)
+        }
+        db?.update(BankAccountNameClass.TABLE_NAME,values,selection,null)
+    }
+
     fun readDBData(): ArrayList<BankAccount> {
         val dataList = ArrayList<BankAccount>()
         val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)
@@ -59,6 +70,46 @@ class BankAccountsDBManager(context: Context){
         cursor.close()
         return dataList
     }
+//    fun findByID(id:String):BankAccount{
+//        lateinit var itemToReturn:BankAccount
+//        val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)
+//        while(cursor?.moveToNext()!!){
+//            if(cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString()==id){
+//                    itemToReturn= BankAccount(
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString(),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat(),
+//                    cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
+//
+//                )
+//
+//            }
+//
+//        }
+//        cursor.close()
+//        return itemToReturn
+//    }
+//    fun findByNumber(id:String):BankAccount{
+//        lateinit var itemToReturn:BankAccount
+//        val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)
+//        while(cursor?.moveToNext()!!){
+//            if( cursor.getInt(cursor.getColumnIndex(BaseColumns._ID)).toString()==id){
+//                itemToReturn= BankAccount(
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString(),
+//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat(),
+//                    cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
+//
+//                )
+//
+//            }
+//
+//        }
+//        cursor.close()
+//        return itemToReturn
+//    }
     fun closeDB(){
         bankAccountsDBHelper.close()
     }

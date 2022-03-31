@@ -1,9 +1,12 @@
 package com.example.financesystem20.Entities
 
-data class Transfer(
-        val idOfSender:String,
-        val idOfReceiver:String,
+class Transfer(
+        val sender:BankAccount,
+        val receiver:BankAccount,
         val sumOfTransfer:Float
 ) {
-
+fun transfer(){
+        sender.takeMoney(sumOfTransfer)
+        receiver.putMoney(sumOfTransfer)
+}
 }
