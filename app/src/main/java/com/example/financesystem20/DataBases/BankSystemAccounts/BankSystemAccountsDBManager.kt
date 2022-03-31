@@ -15,7 +15,7 @@ class BankSystemAccountsDBManager(context: Context) {
     }
 
     fun insertToDB(
-        bank:String,
+        bank: String,
         login: String,
         password:String
     ) {

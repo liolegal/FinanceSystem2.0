@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FinanceSystem20">
-        <activity android:name=".Activities.RegistrateActivity"></activity>
-        <activity android:name=".Activities.LoginActivity"></activity>
+        <activity android:name=".Activities.BankAccountActivity"></activity>
+        <activity android:name=".Activities.RegistrateActivity" />
+        <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.ClientActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

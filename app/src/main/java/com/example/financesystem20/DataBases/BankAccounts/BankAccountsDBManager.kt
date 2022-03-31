@@ -1,14 +1,16 @@
 package com.example.financesystem20.DataBases.BankAccounts
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.provider.BaseColumns
 import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountNameSlass
 import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBHelper
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Entities.BankSystemAccount
 import java.util.ArrayList
 
-class BankAccountsDBManager{
+class BankAccountsDBManager(context: Context){
     val bankAccountsDBHelper = BankAccountsDBHelper(context)
     var db: SQLiteDatabase? = null
 
@@ -31,6 +33,10 @@ class BankAccountsDBManager{
         db?.insert(BankAccountNameClass.TABLE_NAME, null, values)
 
     }
+    fun deleteFromDb(id:String){
+        val selection=BaseColumns._ID +"=$id"
+        db?.delete(BankAccountNameClass.TABLE_NAME,selection,null)
+    }
 
     fun readDBData(): ArrayList<BankAccount> {
         val dataList = ArrayList<BankAccount>()
@@ -39,10 +45,11 @@ class BankAccountsDBManager{
 
         while(cursor?.moveToNext()!!){
             val dataObj= BankAccount(
-                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)).toString(),
-                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)).toString(),
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)),
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)),
                     cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString(),
-                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat()
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat(),
+                    cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
 
             )
             dataList.add(dataObj)

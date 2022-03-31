@@ -8,4 +8,6 @@ data class Client(
     val surname: String,
     var phoneNumber: String,
     var email: String
-) : Serializable
+) : Serializable{
+    val listOfBankAccounts=ArrayList<BankAccount>()
+}

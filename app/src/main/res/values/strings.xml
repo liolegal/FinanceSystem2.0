@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FinanceSystem2.0</string>
+    <string name="selected_item">Selected item:</string>
+
+    <string-array name="Banks">
+        <item>MTB</item>
+        <item>VTB</item>
+        <item>Belarusbank</item>
+    </string-array>
 </resources>
+
+
+
