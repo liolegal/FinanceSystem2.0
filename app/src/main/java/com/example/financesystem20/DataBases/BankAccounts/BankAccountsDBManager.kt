@@ -6,8 +6,10 @@ import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
 import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountNameSlass
 import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBHelper
+import com.example.financesystem20.DataBases.Clients.ClientDBNameClass
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Entities.BankSystemAccount
+import com.example.financesystem20.Entities.Client
 import java.util.ArrayList
 
 class BankAccountsDBManager(context: Context){
@@ -70,26 +72,27 @@ class BankAccountsDBManager(context: Context){
         cursor.close()
         return dataList
     }
-//    fun findByID(id:String):BankAccount{
-//        lateinit var itemToReturn:BankAccount
-//        val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)
-//        while(cursor?.moveToNext()!!){
-//            if(cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString()==id){
-//                    itemToReturn= BankAccount(
-//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)),
-//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)),
-//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString(),
-//                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat(),
-//                    cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
-//
-//                )
-//
-//            }
-//
-//        }
-//        cursor.close()
-//        return itemToReturn
-//    }
+    fun getBankAccountFromDB(id:String):BankAccount?{
+        var itemToReturn:BankAccount?=null
+        val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)
+        while(cursor?.moveToNext()!!){
+            if(cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString()==id){
+                    itemToReturn= BankAccount(
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_BANK)),
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_LOGIN)),
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_IDBA)).toString(),
+                    cursor.getString(cursor.getColumnIndex(BankAccountNameClass.COLUMN_NAME_MONEY)).toFloat(),
+                    cursor.getInt(cursor.getColumnIndex(BaseColumns._ID))
+
+                )
+
+            }
+
+        }
+        cursor.close()
+        return itemToReturn
+    }
+
 //    fun findByNumber(id:String):BankAccount{
 //        lateinit var itemToReturn:BankAccount
 //        val cursor = db?.query(BankAccountNameClass.TABLE_NAME, null, null, null, null, null, null)

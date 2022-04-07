@@ -28,42 +28,50 @@ class BankAccountActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.account_info_tv).text = ""
         val selectedAccountId = intent.extras?.getString(ACCOUNT_ID_SELECTED)
         val selectedAccountIdOfBankAccount = intent.extras?.getString(ACCOUNT_IDBA_SELECTED)
+        val selectedBankAccount=bankAccountsDBManager.getBankAccountFromDB(selectedAccountIdOfBankAccount.toString())
 
-        findViewById<TextView>(R.id.account_info_tv).append(selectedAccountId)
+        findViewById<TextView>(R.id.account_info_tv).append(selectedAccountIdOfBankAccount)
 
         //Delete button
-        findViewById<Button>(R.id.delete_btn).setOnClickListener(){
-                bankAccountsDBManager.deleteFromDb(selectedAccountId.toString())
+        findViewById<Button>(R.id.delete_btn).setOnClickListener() {
+            bankAccountsDBManager.deleteFromDb(selectedAccountId.toString())
             finish()
         }
 
         //Transfer button
-        findViewById<Button>(R.id.transfer_button).setOnClickListener(){
-            val listOfBankAccounts=bankAccountsDBManager.readDBData()
-            val sum=findViewById<EditText>(R.id.sum_of_transfer_edit).text.toString().toFloat()
-            lateinit var sender:BankAccount
-            lateinit var receiver:BankAccount
-            for(item in listOfBankAccounts){
-                if(item.idOfAccount==selectedAccountIdOfBankAccount.toString()){
-                     sender=item
+        findViewById<Button>(R.id.transfer_button).setOnClickListener() {
+            if (findViewById<EditText>(R.id.sum_of_transfer_edit).text.isNotEmpty() && findViewById<EditText>(
+                    R.id.id_of_receiver_edit
+                ).text.isNotEmpty()
+            ) {
+                val listOfBankAccounts = bankAccountsDBManager.readDBData()
+                val sum =
+                    findViewById<EditText>(R.id.sum_of_transfer_edit).text.toString().toFloat()
+                lateinit var sender: BankAccount
+                lateinit var receiver: BankAccount
+                for (item in listOfBankAccounts) {
+                    if (item.idOfAccount == selectedAccountIdOfBankAccount.toString()) {
+                        sender = item
                     }
-                if(item.idOfAccount==findViewById<EditText>(R.id.id_of_receiver_edit).text.toString()){
-                    receiver=item
+                    if (item.idOfAccount == findViewById<EditText>(R.id.id_of_receiver_edit).text.toString()) {
+                        receiver = item
+                    }
                 }
+                if (sender.takeMoney(sum)) {
+                    receiver.putMoney(sum)
+                }
+                bankAccountsDBManager.updateItem(sender, sender.id.toString())
+                bankAccountsDBManager.updateItem(receiver, receiver.id.toString())
+                findViewById<TextView>(R.id.account_info_tv).text = sender.countOfMoney.toString()
             }
-            sender.takeMoney(sum)
-            receiver.putMoney(sum)
-            bankAccountsDBManager.updateItem(sender,sender.id.toString())
-            bankAccountsDBManager.updateItem(receiver,receiver.id.toString())
-            findViewById<TextView>(R.id.account_info_tv).append(sender.countOfMoney.toString())
 
-//
-//            //val sender=bankAccountsDBManager.findByNumber(selectedAccountId.toString())
-//            //val receiver=bankAccountsDBManager.findByID(findViewById<EditText>(R.id.id_of_receiver_edit).text.toString())
-//            val newTransfer=Transfer(sender,receiver,findViewById<EditText>(R.id.sum_of_transfer_edit).text.toString().toFloat())
-//            bankAccountsDBManager.updateItem(sender,sender.id.toString())
-//            bankAccountsDBManager.updateItem(receiver,receiver.id.toString())
-//            findViewById<TextView>(R.id.account_info_tv).append(sender.countOfMoney.toString())
+        }
+        findViewById<Button>(R.id.add_money_btn).setOnClickListener(){
+            selectedBankAccount?.putMoney(100F)
+            findViewById<TextView>(R.id.account_info_tv).text = selectedBankAccount?.countOfMoney.toString()
+            if (selectedBankAccount != null) {
+                bankAccountsDBManager.updateItem(selectedBankAccount, selectedBankAccount.id.toString())
+            }
         }
     }
 

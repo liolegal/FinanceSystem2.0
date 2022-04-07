@@ -12,12 +12,13 @@ import com.example.financesystem20.Activities.LoginActivity.Companion.CLIENT_LOG
 import com.example.financesystem20.Adapters.BankAccountsAdapter
 import com.example.financesystem20.DataBases.BankAccounts.BankAccountsDBManager
 import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBManager
+import com.example.financesystem20.DataBases.Clients.ClientDBManager
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Entities.Client
 import com.example.financesystem20.R
 
 class ClientActivity : AppCompatActivity() {
-    val bankSystemAccountsDBManager = BankSystemAccountsDBManager(this)
+    val clientDBManager = ClientDBManager(this)
     val bankAccountsDBManager = BankAccountsDBManager(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,20 +28,22 @@ class ClientActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        bankSystemAccountsDBManager.openDB()
-        bankAccountsDBManager.openDB()
-        val bankAccountsList = bankAccountsDBManager.readDBData()
-
-        //Text View
         val login = intent.extras?.getString(CLIENT_LOGIN)
         val bank = intent.extras?.getString(BANK_LOGIN)
+        clientDBManager.openDB()
+        bankAccountsDBManager.openDB()
+        val bankAccountsList = bankAccountsDBManager.readDBData()
+        val selectedClient=clientDBManager.getClientFromDB(login.toString())
+        //Text View
+
         findViewById<TextView>(R.id.client_info_tv).text=""
-        findViewById<TextView>(R.id.client_info_tv).append(bank)
-        findViewById<TextView>(R.id.client_info_tv).append(":  ")
+        findViewById<TextView>(R.id.client_info_tv).append("${selectedClient?.phoneNumber}:  ")
         findViewById<TextView>(R.id.client_info_tv).append(login)
         findViewById<TextView>(R.id.client_info_tv).append(" ")
 
-        //List View
+        //TODO()" OnClick to show info about client"
+       // List View
+
         var listView = findViewById<ListView>(R.id.list_of_bank_accounts)
         var bankAccountsListOfClient = ArrayList<BankAccount>()
         for (item in bankAccountsList) {
@@ -80,6 +83,7 @@ class ClientActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         bankAccountsDBManager.closeDB()
+        clientDBManager.closeDB()
     }
     companion object{
         const val ACCOUNT_ID_SELECTED="id"

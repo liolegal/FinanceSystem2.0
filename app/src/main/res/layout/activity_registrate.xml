@@ -10,6 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <EditText
+            android:id="@+id/bank_registration_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Bank"></EditText>
 
         <EditText
             android:id="@+id/login_registration_edit"
@@ -22,12 +27,28 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"></EditText>
-
         <EditText
-            android:id="@+id/bank_registration_edit"
+            android:id="@+id/name_registration_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Bank"></EditText>
+            android:hint="Name"></EditText>
+        <EditText
+            android:id="@+id/surname_registration_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Surname"></EditText>
+        <EditText
+            android:id="@+id/phone_registration_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Phone Number"></EditText>
+        <EditText
+            android:id="@+id/email_registration_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"></EditText>
+
+
 
     </LinearLayout>
 
@@ -36,17 +57,16 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/registrate_button"
-            android:layout_width="144dp"
-            android:layout_height="wrap_content"
-            android:onClick="onClickRegistrate"
-            android:text="Registrate">
-
-        </Button>
-
     </LinearLayout>
 
+    <Button
+        android:id="@+id/registrate_button"
+        android:layout_width="144dp"
+        android:layout_height="wrap_content"
+        android:onClick="onClickRegistrate"
+        android:text="Registrate">
+
+    </Button>
 
 
 </LinearLayout>

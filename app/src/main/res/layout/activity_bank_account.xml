@@ -42,14 +42,16 @@
         android:layout_height="100dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:text="Button"
+        android:text="Transfer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/account_info_tv"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/account_info_tv"
         app:layout_constraintTop_toBottomOf="@+id/account_info_tv"
         app:layout_constraintVertical_bias="0.113"
-        tools:text="Transfer" />
+        tools:text="Transfer" >
+
+    </Button>
 
     <EditText
         android:id="@+id/id_of_receiver_edit"
@@ -64,7 +66,9 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/transfer_button"
         app:layout_constraintTop_toBottomOf="@+id/account_info_tv"
-        app:layout_constraintVertical_bias="0.022"></EditText>
+        app:layout_constraintVertical_bias="0.022">
+
+    </EditText>
 
     <Button
         android:id="@+id/delete_btn"
@@ -75,4 +79,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/transfer_button"
         app:layout_constraintTop_toBottomOf="@+id/id_of_receiver_edit" />
+
+    <Button
+        android:id="@+id/add_money_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add money"
+        app:layout_constraintBottom_toTopOf="@+id/delete_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/delete_btn"
+        app:layout_constraintTop_toBottomOf="@+id/sum_of_transfer_edit" />
 </androidx.constraintlayout.widget.ConstraintLayout>
