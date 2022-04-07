@@ -41,8 +41,14 @@ class ManagerActivity : AppCompatActivity() {
         listView.setOnItemClickListener { _, view, position: Int, id: Long ->
             val client=manager.approve(notApprovedCLients[position])
             clientDBManager.updateItem(client,client.id.toString())
+            notApprovedCLients.remove(client)
+            adapter.notifyDataSetChanged()
         }
 
 
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        clientDBManager.closeDB()
     }
 }
