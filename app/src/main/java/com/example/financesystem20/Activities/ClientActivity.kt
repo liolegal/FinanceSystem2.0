@@ -30,13 +30,13 @@ class ClientActivity : AppCompatActivity() {
         val login = intent.extras?.getString(CLIENT_LOGIN)
         val bank = intent.extras?.getString(BANK_LOGIN)
         clientDBManager.openDB()
-        val selectedClient=clientDBManager.getClientFromDB(login.toString())
-        //Text View
-        //TODO()  "Do client info "
-        findViewById<TextView>(R.id.client_info_tv).text=""
-        findViewById<TextView>(R.id.client_info_tv).append("${selectedClient?.phoneNumber}:  ")
-        findViewById<TextView>(R.id.client_info_tv).append(login)
-        findViewById<TextView>(R.id.client_info_tv).append(" ")
+        val selectedClient = clientDBManager.getClientFromDB(login.toString())
+
+        findViewById<TextView>(R.id.client_info_tv).text = "${selectedClient?.login}\n" +
+                "${selectedClient?.name}" + " ${selectedClient?.surname}\n" +
+                "${selectedClient?.phoneNumber}\n" + "${selectedClient?.email}"
+
+
 
         findViewById<Button>(R.id.show_bank_accounts_btn).setOnClickListener() {
             val newActivityIntent = Intent(this, BankAccountsView::class.java)
@@ -55,15 +55,15 @@ class ClientActivity : AppCompatActivity() {
     }
 
 
-
     override fun onDestroy() {
         super.onDestroy()
         bankAccountsDBManager.closeDB()
         clientDBManager.closeDB()
     }
-    companion object{
-        const val ACCOUNT_ID_SELECTED="id"
-        const val ACCOUNT_IDBA_SELECTED="id of bankAccount"
+
+    companion object {
+        const val ACCOUNT_ID_SELECTED = "id"
+        const val ACCOUNT_IDBA_SELECTED = "id of bankAccount"
     }
 
 }
