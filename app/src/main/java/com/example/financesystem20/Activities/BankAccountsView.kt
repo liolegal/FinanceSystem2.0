@@ -14,6 +14,7 @@ import com.example.financesystem20.R
 
 class BankAccountsView: AppCompatActivity(),IBankAccountsView {
     val bankAccountsDBManager = BankAccountsDBManager(this)
+    lateinit var adapter:BankAccountsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bank_accounts_view)
@@ -26,25 +27,33 @@ class BankAccountsView: AppCompatActivity(),IBankAccountsView {
         var listView = findViewById<ListView>(R.id.list_of_bank_accounts)
         val bankAccountsPresenter = BankAccountsController(this, bankAccountsDBManager)
         val bankAccountsListOfClient=bankAccountsPresenter.OnGetBankAccounts(bank,login)
-        val adapter = BankAccountsAdapter(this, bankAccountsListOfClient)
+        adapter = BankAccountsAdapter(this, bankAccountsListOfClient)
         listView.adapter = adapter
 
-        OnSelectBankAccount(bankAccountsPresenter.OnGetBankAccounts(bank,login))
+        listView.setOnItemClickListener { _, view, position: Int, id: Long ->
+            OnSelectBankAccount(bankAccountsListOfClient,position)
+        }
+
         findViewById<Button>(R.id.add_bank_account_btn).setOnClickListener() {
-            bankAccountsListOfClient.add(bankAccountsPresenter.OnAddBankAccount(bank,login)!!)
-            adapter.notifyDataSetChanged()
+            bankAccountsPresenter.OnAddBankAccount(bank.toString(),login.toString(),bankAccountsListOfClient)
+
         }
 
     }
-    override fun OnSelectBankAccount(bankAccountsListOfClient: ArrayList<BankAccount>) {
-        var listView = findViewById<ListView>(R.id.list_of_bank_accounts)
-        listView.setOnItemClickListener { _, view, position: Int, id: Long ->
-
+    override fun OnSelectBankAccount(bankAccountsListOfClient: ArrayList<BankAccount>,position:Int) {
             val newActivityIntent = Intent(this, BankAccountActivity::class.java)
             newActivityIntent.putExtra(ClientActivity.ACCOUNT_ID_SELECTED,bankAccountsListOfClient[position].id.toString())
             newActivityIntent.putExtra(ClientActivity.ACCOUNT_IDBA_SELECTED,bankAccountsListOfClient[position].idOfAccount)
             startActivity(newActivityIntent)
-        }
+
+    }
+
+    override fun OnAddBankAccountSuccess(
+        bankAccount: BankAccount,
+        bankAccountsListOfClient: ArrayList<BankAccount>
+    ) {
+        bankAccountsListOfClient.add(bankAccount)
+        adapter.notifyDataSetChanged()
     }
 
 }

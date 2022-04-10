@@ -1,8 +1,6 @@
 package com.example.financesystem20.Controllers
 
-import com.example.financesystem20.Adapters.BankAccountsAdapter
 import com.example.financesystem20.DataBases.BankAccounts.BankAccountsDBManager
-import com.example.financesystem20.DataBases.Clients.ClientDBManager
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Interfaces.IBankAccountsController
 import com.example.financesystem20.Interfaces.IBankAccountsView
@@ -23,16 +21,11 @@ class BankAccountsController (private val bankAccountsView: IBankAccountsView,va
     }
 
 
-    override fun OnAddBankAccount(bank:String?,login:String?) :BankAccount?{
-        var newBankAccount:BankAccount?=null
+    override fun OnAddBankAccount(bank:String,login:String,bankAccountsListOfClient:ArrayList<BankAccount>){
         val id = (1..1000).random().toString() + "account"
-        if (bank != null) {
-            if (login != null) {
-                bankAccountsDBManager.insertToDB(bank, login, id, 0F)
-                newBankAccount=BankAccount(bank,login,id,0F)
-            }
-        }
-        return newBankAccount
+        bankAccountsDBManager.insertToDB(bank, login, id, 0F)
+        val newBankAccount=BankAccount(bank,login,id,0F)
+        bankAccountsView.OnAddBankAccountSuccess(newBankAccount,bankAccountsListOfClient)
     }
 
 
