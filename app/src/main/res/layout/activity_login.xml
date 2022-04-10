@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     >
 
+
     <Spinner
         android:id="@+id/bank_spinner"
         android:layout_width="match_parent"
@@ -16,28 +17,14 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </Spinner>
-
-
-    <EditText
-        android:id="@+id/bank_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:hint="Bank"
         app:layout_constraintBottom_toTopOf="@+id/login_edit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.873"></EditText>
+        app:layout_constraintVertical_bias="0.724">
+
+    </Spinner>
 
     <EditText
         android:id="@+id/login_edit"
@@ -47,11 +34,11 @@
         android:layout_marginBottom="250dp"
         android:hint="Login"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/bank_edit"
+        app:layout_constraintEnd_toEndOf="@+id/bank_spinner"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/bank_edit"
+        app:layout_constraintStart_toStartOf="@+id/bank_spinner"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455"></EditText>
+        app:layout_constraintVertical_bias="0.439"></EditText>
 
     <EditText
         android:id="@+id/password_edit"

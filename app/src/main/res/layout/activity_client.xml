@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/client_info_tv"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="100dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginEnd="16dp"
@@ -22,45 +22,40 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.01999998" />
 
-    <TextView
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Accounts"
-        app:layout_constraintBottom_toTopOf="@+id/list_of_bank_accounts"
-        app:layout_constraintEnd_toEndOf="@+id/client_info_tv"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/client_info_tv"
-        app:layout_constraintTop_toBottomOf="@+id/client_info_tv"
-        app:layout_constraintVertical_bias="0.01999998">
-
-    </TextView>
-
-    <ListView
-        android:id="@+id/list_of_bank_accounts"
-        android:layout_width="0dp"
-        android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/client_info_tv"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/client_info_tv"
-        app:layout_constraintTop_toBottomOf="@+id/client_info_tv"
-        app:layout_constraintVertical_bias="0.437">
-
-    </ListView>
 
     <Button
-        android:id="@+id/add_bank_account_btn"
+        android:id="@+id/show_bank_accounts_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Add Account"
-        app:layout_constraintEnd_toEndOf="@+id/list_of_bank_accounts"
+        android:text="Show Accounts"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/client_info_tv"
+        app:layout_constraintStart_toStartOf="@+id/client_info_tv"
+        app:layout_constraintTop_toBottomOf="@+id/client_info_tv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/show_credits_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Show Credits"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/show_bank_accounts_btn"
+        app:layout_constraintStart_toStartOf="@+id/show_bank_accounts_btn"
+        app:layout_constraintTop_toBottomOf="@+id/show_bank_accounts_btn"
+        app:layout_constraintVertical_bias="0.078" />
+
+    <Button
+        android:id="@+id/apply_salary_project_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Apply for a salary project "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/show_credits_btn"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/list_of_bank_accounts"
-        app:layout_constraintTop_toBottomOf="@+id/list_of_bank_accounts" />
+        app:layout_constraintStart_toStartOf="@+id/show_credits_btn"
+        app:layout_constraintTop_toBottomOf="@+id/show_credits_btn"
+        app:layout_constraintVertical_bias="0.11" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

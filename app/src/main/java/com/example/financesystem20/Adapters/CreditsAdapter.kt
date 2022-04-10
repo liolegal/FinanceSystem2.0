@@ -8,14 +8,15 @@ import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.financesystem20.DataBases.BankAccounts.BankAccountsDBManager
 import com.example.financesystem20.Entities.BankAccount
+import com.example.financesystem20.Entities.Credit
 import com.example.financesystem20.R
 
-class BankAccountsAdapter(
-        private val context: Context,
-        private val dataSource: ArrayList<BankAccount>
+class CreditsAdapter(
+    private val context: Context,
+    private val dataSource: ArrayList<Credit>
 ) : BaseAdapter() {
     private val inflater: LayoutInflater =
-            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getCount(): Int {
         return dataSource.size
@@ -36,14 +37,16 @@ class BankAccountsAdapter(
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         notifyDataSetChanged()
 
-        val rowView = inflater.inflate(R.layout.list_item_accounts, parent, false)
-        val idTitle = rowView.findViewById(R.id.id_of_account_title) as TextView
-        val moneyTitle = rowView.findViewById(R.id.money_title) as TextView
+        val rowView = inflater.inflate(R.layout.list_item_credits, parent, false)
+        val idTitle = rowView.findViewById(R.id.id_of_credit_title) as TextView
+        val moneyTitle = rowView.findViewById(R.id.amount_of_debt_title) as TextView
+        val termTitle = rowView.findViewById(R.id.term_title) as TextView
 
-        val bankAccount = getItem(position) as BankAccount
+        val credit = getItem(position) as Credit
 
-        idTitle.text = bankAccount.idOfAccount
-        moneyTitle.text = bankAccount.countOfMoney.toString()+"$"
+        idTitle.text = credit.idOfCredit
+        moneyTitle.text = credit.amountOfDebt.toString() + "$"
+        termTitle.text = credit.creditTerm.toString() + " months"
 
 
 

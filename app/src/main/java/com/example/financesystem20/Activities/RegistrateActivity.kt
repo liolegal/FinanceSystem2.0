@@ -6,8 +6,6 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import com.example.financesystem20.Controllers.RegistrateController
-import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountNameSlass
-import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBManager
 import com.example.financesystem20.DataBases.Clients.ClientDBManager
 import com.example.financesystem20.Interfaces.IRegistrateView
 import com.example.financesystem20.R

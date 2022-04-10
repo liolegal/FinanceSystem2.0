@@ -1,11 +1,19 @@
 <resources>
     <string name="app_name">FinanceSystem2.0</string>
-    <string name="selected_item">Selected item:</string>
+    <string name="selected_item_bank">Selected item:</string>
+    <string name="selected_item_term">Selected item:</string>
 
     <string-array name="Banks">
         <item>MTB</item>
         <item>VTB</item>
         <item>Belarusbank</item>
+    </string-array>
+    <string-array name="Terms">
+        <item>3 months</item>
+        <item>6 months</item>
+        <item>12 months</item>
+        <item>24 months</item>
+        <item>36 months</item>
     </string-array>
 </resources>
 

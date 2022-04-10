@@ -5,13 +5,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ListView
 import com.example.financesystem20.Adapters.ApprovesAdapter
+import com.example.financesystem20.Adapters.ApprovesCreditAdapter
 import com.example.financesystem20.DataBases.Clients.ClientDBManager
+import com.example.financesystem20.DataBases.Credits.CreditsDBManager
 import com.example.financesystem20.Entities.Client
+import com.example.financesystem20.Entities.Credit
 import com.example.financesystem20.Entities.Staff.Manager
 import com.example.financesystem20.R
 
 class ManagerActivity : AppCompatActivity() {
-    val clientDBManager=ClientDBManager(this)
+    val clientDBManager = ClientDBManager(this)
+    val creditsDBManager = CreditsDBManager(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_manager)
@@ -20,33 +24,46 @@ class ManagerActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         clientDBManager.openDB()
-//        val login = intent.extras?.getString(LoginActivity.STAFF_LOGIN)
-//        val bank = intent.extras?.getString(LoginActivity.BANK_LOGIN)
-//        //val manager=получчить менеджера
-        val manager= Manager("","","","","")
-        //созжать объект менеджер
-        val clientsList=clientDBManager.readDBData()
-        var notApprovedCLients=ArrayList<Client>()
-        for(item in clientsList){
-            if(item.approved==0){
+        creditsDBManager.openDB()
+        val manager = Manager("", "", "", "", "")
+        val clientsList = clientDBManager.readDBData()
+        var notApprovedCLients = ArrayList<Client>()
+        for (item in clientsList) {
+            if (item.approved == 0) {
                 notApprovedCLients.add(item)
+            }
+        }
+        val creditsList = creditsDBManager.readDBData()
+        var notApprovedCredits = ArrayList<Credit>()
+        for (item in creditsList) {
+            if (item.approved == 0) {
+                notApprovedCredits.add(item)
             }
         }
 
         //ListView
-        val listView=findViewById<ListView>(R.id.approve_lv)
+        val clientListView = findViewById<ListView>(R.id.approve_lv)
         val adapter = ApprovesAdapter(this, notApprovedCLients)
-        listView.adapter = adapter
+        clientListView.adapter = adapter
 
-        listView.setOnItemClickListener { _, view, position: Int, id: Long ->
-            val client=manager.approve(notApprovedCLients[position])
-            clientDBManager.updateItem(client,client.id.toString())
+        clientListView.setOnItemClickListener { _, view, position: Int, id: Long ->
+            val client = manager.approveClient(notApprovedCLients[position])
+            clientDBManager.updateItem(client, client.id.toString())
             notApprovedCLients.remove(client)
             adapter.notifyDataSetChanged()
         }
-
+        val creditsListView = findViewById<ListView>(R.id.credits_to_approve_lv);
+        val creditApproveAdapter = ApprovesCreditAdapter(this, notApprovedCredits)
+        creditsListView.adapter = creditApproveAdapter
+        creditsListView.setOnItemClickListener { _, view, position: Int, id: Long ->
+            val credit = manager.approveCredit(notApprovedCredits[position])
+            creditsDBManager.updateItem(credit, credit.id.toString())
+            notApprovedCredits.remove(credit)
+            adapter.notifyDataSetChanged()
+        }
 
     }
+
     override fun onDestroy() {
         super.onDestroy()
         clientDBManager.closeDB()

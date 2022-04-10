@@ -7,7 +7,6 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.financesystem20.Controllers.LoginAsClientController
 import com.example.financesystem20.Controllers.LoginAsStaffController
-import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBManager
 import com.example.financesystem20.DataBases.Clients.ClientDBManager
 import com.example.financesystem20.DataBases.Personal.StaffDBManager
 import com.example.financesystem20.Interfaces.ILoginView
@@ -17,6 +16,7 @@ class LoginActivity : AppCompatActivity(), ILoginView {
     val clientDBManager = ClientDBManager(this)
     val staffDBManager = StaffDBManager(this)
     var loginAsPersonal = false
+    var inputBank:String=""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -26,17 +26,28 @@ class LoginActivity : AppCompatActivity(), ILoginView {
         super.onResume()
         staffDBManager.openDB()
         clientDBManager.openDB()
+
         val bankSpinner = findViewById<Spinner>(R.id.bank_spinner)
         val banks = resources.getStringArray(R.array.Banks)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, banks)
         bankSpinner.adapter = adapter
+        bankSpinner.onItemSelectedListener = object :
+            AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>,
+                                        view: View, position: Int, id: Long) {
+                val banks = resources.getStringArray(R.array.Banks)
+                inputBank=banks[position].toString()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // write code to perform some action
+            }
+        }
     }
 
     fun onClickLogin(view: View) {
-        val bankSpinner = findViewById<Spinner>(R.id.bank_spinner)
         val inputLogin = findViewById<EditText>(R.id.login_edit).text.toString()
         val inputPassword = findViewById<EditText>(R.id.password_edit).text.toString()
-        val inputBank = findViewById<EditText>(R.id.bank_edit).text.toString()
         val loginClientPresenter = LoginAsClientController(this, clientDBManager)
         val loginStaffPresenter = LoginAsStaffController(this, staffDBManager)
 

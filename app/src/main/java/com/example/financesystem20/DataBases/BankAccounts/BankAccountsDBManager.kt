@@ -4,12 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.provider.BaseColumns
-import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountNameSlass
-import com.example.financesystem20.DataBases.BankSystemAccounts.BankSystemAccountsDBHelper
-import com.example.financesystem20.DataBases.Clients.ClientDBNameClass
 import com.example.financesystem20.Entities.BankAccount
-import com.example.financesystem20.Entities.BankSystemAccount
-import com.example.financesystem20.Entities.Client
 import java.util.ArrayList
 
 class BankAccountsDBManager(context: Context){

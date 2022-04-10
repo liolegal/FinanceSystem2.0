@@ -23,21 +23,23 @@ class RegistrateController(
         phoneNumber: String,
         email: String
     ) {
-        if (clientDBManager.getClientFromDB(login) == null) {
-            clientDBManager.insertToDB(
-                bank,
-                login,
-                password,
-                name,
-                surname,
-                phoneNumber,
-                email,
-                0
-            )
-            registrateView.OnRegistrateSuccess("Welcome")
-        } else {
-            registrateView.OnRegistrateError("This login is already exist")
+        if (bank != "" || login != "" || password != "" || name != "" || surname != "" || phoneNumber != "" || email != "") {
+            if (clientDBManager.getClientFromDB(login) == null) {
+                clientDBManager.insertToDB(
+                    bank,
+                    login,
+                    password,
+                    name,
+                    surname,
+                    phoneNumber,
+                    email,
+                    0
+                )
+                registrateView.OnRegistrateSuccess("Welcome")
+            } else {
+                registrateView.OnRegistrateError("This login is already exist")
 
-        }
+            }
+        }else{registrateView.OnRegistrateError("Fill in all the fields")}
     }
 }

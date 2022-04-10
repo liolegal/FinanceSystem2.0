@@ -1,9 +1,5 @@
 package com.example.financesystem20.Controllers
 
-import android.content.Intent
-import android.widget.Toast
-import com.example.financesystem20.Activities.ClientActivity
-import com.example.financesystem20.Activities.LoginActivity
 import com.example.financesystem20.DataBases.Clients.ClientDBManager
 import com.example.financesystem20.Interfaces.ILoginController
 import com.example.financesystem20.Interfaces.ILoginView
