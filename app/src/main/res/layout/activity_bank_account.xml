@@ -89,4 +89,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/delete_btn"
         app:layout_constraintTop_toBottomOf="@+id/sum_of_transfer_edit" />
+
+    <Button
+        android:id="@+id/cash_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Take Cash"
+        app:layout_constraintBottom_toTopOf="@+id/delete_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/add_money_btn"
+        app:layout_constraintTop_toBottomOf="@+id/add_money_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

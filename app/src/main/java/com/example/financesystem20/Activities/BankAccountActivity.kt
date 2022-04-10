@@ -5,15 +5,19 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import com.example.financesystem20.Activities.ClientActivity.Companion.ACCOUNT_IDBA_SELECTED
 import com.example.financesystem20.Activities.ClientActivity.Companion.ACCOUNT_ID_SELECTED
+import com.example.financesystem20.Controllers.BankAccountController
+import com.example.financesystem20.Controllers.BankAccountsController
 import com.example.financesystem20.DataBases.BankAccounts.BankAccountsDBManager
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Entities.Transfer
+import com.example.financesystem20.Interfaces.IBankAccountView
 import com.example.financesystem20.R
 import org.w3c.dom.Text
 
-class BankAccountActivity : AppCompatActivity() {
+class BankAccountActivity : AppCompatActivity(), IBankAccountView {
     val bankAccountsDBManager = BankAccountsDBManager(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,51 +32,52 @@ class BankAccountActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.account_info_tv).text = ""
         val selectedAccountId = intent.extras?.getString(ACCOUNT_ID_SELECTED)
         val selectedAccountIdOfBankAccount = intent.extras?.getString(ACCOUNT_IDBA_SELECTED)
-        val selectedBankAccount=bankAccountsDBManager.getBankAccountFromDB(selectedAccountIdOfBankAccount.toString())
+        val selectedBankAccount =
+            bankAccountsDBManager.getBankAccountFromDB(selectedAccountIdOfBankAccount.toString())
+        val bankAccountPresenter = BankAccountController(this, bankAccountsDBManager)
 
-        findViewById<TextView>(R.id.account_info_tv).append(selectedAccountIdOfBankAccount)
+        findViewById<TextView>(R.id.account_info_tv).text =
+            selectedAccountIdOfBankAccount + "\n" + selectedBankAccount?.countOfMoney.toString()
 
-        //Delete button
         findViewById<Button>(R.id.delete_btn).setOnClickListener() {
-            bankAccountsDBManager.deleteFromDb(selectedAccountId.toString())
-            finish()
-        }
+            bankAccountPresenter.OnDelete(selectedAccountId.toString())
 
-        //Transfer button
+        }
         findViewById<Button>(R.id.transfer_button).setOnClickListener() {
-            if (findViewById<EditText>(R.id.sum_of_transfer_edit).text.isNotEmpty() && findViewById<EditText>(
-                    R.id.id_of_receiver_edit
-                ).text.isNotEmpty()
-            ) {
-                val listOfBankAccounts = bankAccountsDBManager.readDBData()
-                val sum =
-                    findViewById<EditText>(R.id.sum_of_transfer_edit).text.toString().toFloat()
-                lateinit var sender: BankAccount
-                lateinit var receiver: BankAccount
-                for (item in listOfBankAccounts) {
-                    if (item.idOfAccount == selectedAccountIdOfBankAccount.toString()) {
-                        sender = item
-                    }
-                    if (item.idOfAccount == findViewById<EditText>(R.id.id_of_receiver_edit).text.toString()) {
-                        receiver = item
-                    }
-                }
-                if (sender.takeMoney(sum)) {
-                    receiver.putMoney(sum)
-                }
-                bankAccountsDBManager.updateItem(sender, sender.id.toString())
-                bankAccountsDBManager.updateItem(receiver, receiver.id.toString())
-                findViewById<TextView>(R.id.account_info_tv).text = sender.countOfMoney.toString()
-            }
+            val sum = findViewById<EditText>(R.id.sum_of_transfer_edit).text.toString()
+            val idOfReceiver = findViewById<EditText>(R.id.id_of_receiver_edit).text.toString()
+            bankAccountPresenter.OnTransfer(sum,idOfReceiver,selectedAccountIdOfBankAccount.toString())
+        }
+        findViewById<Button>(R.id.add_money_btn).setOnClickListener() {
+            bankAccountPresenter.OnAddMoney(selectedBankAccount)
+        }
+        findViewById<Button>(R.id.cash_btn).setOnClickListener() {
+            bankAccountPresenter.OnTakeMoney(selectedBankAccount)
+        }
+    }
 
-        }
-        findViewById<Button>(R.id.add_money_btn).setOnClickListener(){
-            selectedBankAccount?.putMoney(100F)
-            findViewById<TextView>(R.id.account_info_tv).text = selectedBankAccount?.countOfMoney.toString()
-            if (selectedBankAccount != null) {
-                bankAccountsDBManager.updateItem(selectedBankAccount, selectedBankAccount.id.toString())
-            }
-        }
+    override fun OnAddMoneySuccess(selectedBankAccount: BankAccount?) {
+        findViewById<TextView>(R.id.account_info_tv).text =
+            selectedBankAccount?.idOfAccount + "\n" + selectedBankAccount?.countOfMoney.toString()+" $"
+    }
+
+    override fun OnTakeMoneySuccess(selectedBankAccount: BankAccount?) {
+        findViewById<TextView>(R.id.account_info_tv).text =
+            selectedBankAccount?.idOfAccount + "\n" + selectedBankAccount?.countOfMoney.toString()+" $"
+    }
+
+    override fun OnActionError(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun OnDeleteSuccess(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+        finish()
+    }
+
+    override fun OnTransferSuccess(selectedBankAccount: BankAccount?) {
+        findViewById<TextView>(R.id.account_info_tv).text =
+            selectedBankAccount?.idOfAccount + "\n" + selectedBankAccount?.countOfMoney.toString()+" $"
     }
 
 
