@@ -6,18 +6,21 @@ import android.view.View
 import android.widget.*
 import com.example.financesystem20.Adapters.BankAccountsAdapter
 import com.example.financesystem20.Adapters.CreditsAdapter
+import com.example.financesystem20.Controllers.CreditsController
 import com.example.financesystem20.DataBases.BankAccounts.BankAccountsDBManager
 import com.example.financesystem20.DataBases.Banks.BanksDBManager
 import com.example.financesystem20.DataBases.Credits.CreditsDBManager
 import com.example.financesystem20.Entities.Bank
 import com.example.financesystem20.Entities.BankAccount
 import com.example.financesystem20.Entities.Credit
+import com.example.financesystem20.Interfaces.ICreditsView
 import com.example.financesystem20.R
 
-class CreditsView : AppCompatActivity() {
+class CreditsView : AppCompatActivity(),ICreditsView {
     val creditsDBManager=CreditsDBManager(this)
     val banksDBManager= BanksDBManager(this)
     val bankAccountsDBManager=BankAccountsDBManager(this)
+    lateinit var adapterCreditsView:CreditsAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_credits_view)
@@ -25,24 +28,12 @@ class CreditsView : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        banksDBManager.openDB()
-        creditsDBManager.openDB()
-        bankAccountsDBManager.openDB()
-
-        val datalist=creditsDBManager.readDBData()
+        var listView = findViewById<ListView>(R.id.list_of_credits_lv)
         val login = intent.extras?.getString(LoginActivity.CLIENT_LOGIN)
         val bank = intent.extras?.getString(LoginActivity.BANK_LOGIN)
-        val selectedBank:Bank= banksDBManager.getBankFromDB(bank.toString())!!
-
-        var listView = findViewById<ListView>(R.id.list_of_credits_lv)
-        var creditsListOfClient = ArrayList<Credit>()
-        for (item in datalist) {
-            if (item.bank == bank && item.login==login && item.approved==1) {
-                creditsListOfClient.add(item)
-
-            }
-        }
-        val adapterCreditsView = CreditsAdapter(this, creditsListOfClient)
+        val creditsPresenter=CreditsController(this,creditsDBManager,bankAccountsDBManager,banksDBManager)
+        val creditsListOfClient=creditsPresenter.OnGetCredits(bank,login)
+        adapterCreditsView = CreditsAdapter(this, creditsListOfClient)
         listView.adapter = adapterCreditsView
 
         val termSpinner = findViewById<Spinner>(R.id.spinner_terms)
@@ -64,43 +55,13 @@ class CreditsView : AppCompatActivity() {
             }
         }
 
-
-
-
-
         findViewById<Button>(R.id.add_credit_btn).setOnClickListener(){
             val sum=findViewById<EditText>(R.id.sum_of_credit).text.toString()
-            var procent=0.12F
-            when(selectedTerm){
-                "3 months"->{
-                    procent=selectedBank.percent3
-                    selectedTerm="3"
-                }
-
-                "6 months"->{
-                    procent=selectedBank.percent6
-                    selectedTerm="6"
-                }
-                "12 months"->{
-                    procent=selectedBank.percent12
-                    selectedTerm="12"
-                }
-                "24 months"->{
-                    procent=selectedBank.percent24
-                    selectedTerm="24"
-                }
-                "36 months"->{
-                    procent=selectedBank.percent36
-                    selectedTerm="36"
-                }
-            }
-            val id = (1..1000).random().toString() + "creditAccount"
-            if (bank != null) {
-                if (login != null) {
-                    creditsDBManager.insertToDB(bank, login, id, sum.toInt(),selectedTerm.toInt(),procent,0)
-                    bankAccountsDBManager.insertToDB(bank,login,id,sum.toInt().toFloat())
-                }
-            }
+            creditsPresenter.OnAddCredit(bank.toString(),login.toString(),sum,selectedTerm)
         }
+    }
+
+    override fun OnAddCreditSuccess() {
+        Toast.makeText(this, "Now u need an approve", Toast.LENGTH_SHORT).show()
     }
 }
